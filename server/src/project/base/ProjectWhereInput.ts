@@ -11,15 +11,39 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringFilter } from "../../util/StringFilter";
+import { ConstituencyListRelationFilter } from "../../constituency/base/ConstituencyListRelationFilter";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
+import { CountyListRelationFilter } from "../../county/base/CountyListRelationFilter";
+import { StringFilter } from "../../util/StringFilter";
 import { MediumListRelationFilter } from "../../medium/base/MediumListRelationFilter";
-import { ProjectHasConstituencyListRelationFilter } from "../../projectHasConstituency/base/ProjectHasConstituencyListRelationFilter";
-import { ProjectHasCountyListRelationFilter } from "../../projectHasCounty/base/ProjectHasCountyListRelationFilter";
-import { ProjectHasRegionListRelationFilter } from "../../projectHasRegion/base/ProjectHasRegionListRelationFilter";
+import { RegionListRelationFilter } from "../../region/base/RegionListRelationFilter";
 @InputType()
 class ProjectWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => ConstituencyListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => ConstituencyListRelationFilter)
+  @IsOptional()
+  @Field(() => ConstituencyListRelationFilter, {
+    nullable: true,
+  })
+  constituencies?: ConstituencyListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => CountyListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => CountyListRelationFilter)
+  @IsOptional()
+  @Field(() => CountyListRelationFilter, {
+    nullable: true,
+  })
+  counties?: CountyListRelationFilter;
+
   @ApiProperty({
     required: false,
     type: StringFilter,
@@ -45,38 +69,14 @@ class ProjectWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => ProjectHasConstituencyListRelationFilter,
+    type: () => RegionListRelationFilter,
   })
   @ValidateNested()
-  @Type(() => ProjectHasConstituencyListRelationFilter)
+  @Type(() => RegionListRelationFilter)
   @IsOptional()
-  @Field(() => ProjectHasConstituencyListRelationFilter, {
+  @Field(() => RegionListRelationFilter, {
     nullable: true,
   })
-  projectHasConstituencies?: ProjectHasConstituencyListRelationFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => ProjectHasCountyListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => ProjectHasCountyListRelationFilter)
-  @IsOptional()
-  @Field(() => ProjectHasCountyListRelationFilter, {
-    nullable: true,
-  })
-  projectHasCounties?: ProjectHasCountyListRelationFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => ProjectHasRegionListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => ProjectHasRegionListRelationFilter)
-  @IsOptional()
-  @Field(() => ProjectHasRegionListRelationFilter, {
-    nullable: true,
-  })
-  projectHasRegions?: ProjectHasRegionListRelationFilter;
+  regions?: RegionListRelationFilter;
 }
 export { ProjectWhereInput };

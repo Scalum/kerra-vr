@@ -10,49 +10,35 @@ https://docs.amplication.com/docs/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { InputType, Field } from "@nestjs/graphql";
+import { RegionWhereUniqueInput } from "../../region/base/RegionWhereUniqueInput";
 import { ApiProperty } from "@nestjs/swagger";
-import { SortOrder } from "../../util/SortOrder";
-
-@InputType({
-  isAbstract: true,
-  description: undefined,
-})
-class RegionOrderByInput {
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @Field(() => SortOrder, {
+@InputType()
+class RegionUpdateManyWithoutProjectsInput {
+  @Field(() => [RegionWhereUniqueInput], {
     nullable: true,
   })
-  createdAt?: SortOrder;
-
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => [RegionWhereUniqueInput],
   })
-  @Field(() => SortOrder, {
+  connect?: Array<RegionWhereUniqueInput>;
+
+  @Field(() => [RegionWhereUniqueInput], {
     nullable: true,
   })
-  id?: SortOrder;
-
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => [RegionWhereUniqueInput],
   })
-  @Field(() => SortOrder, {
+  disconnect?: Array<RegionWhereUniqueInput>;
+
+  @Field(() => [RegionWhereUniqueInput], {
     nullable: true,
   })
-  projectId?: SortOrder;
-
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => [RegionWhereUniqueInput],
   })
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
-  updatedAt?: SortOrder;
+  set?: Array<RegionWhereUniqueInput>;
 }
-
-export { RegionOrderByInput };
+export { RegionUpdateManyWithoutProjectsInput };

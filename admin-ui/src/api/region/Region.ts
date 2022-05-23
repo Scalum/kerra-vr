@@ -1,10 +1,10 @@
 import { County } from "../county/County";
-import { ProjectHasRegion } from "../projectHasRegion/ProjectHasRegion";
+import { Project } from "../project/Project";
 
 export type Region = {
   counties?: Array<County>;
   createdAt: Date;
   id: string;
-  projectHasRegions?: Array<ProjectHasRegion>;
+  project?: Project | null;
   updatedAt: Date;
 };

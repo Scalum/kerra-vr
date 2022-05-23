@@ -27,9 +27,6 @@ import { CountyWhereUniqueInput } from "./CountyWhereUniqueInput";
 import { CountyFindManyArgs } from "./CountyFindManyArgs";
 import { CountyUpdateInput } from "./CountyUpdateInput";
 import { County } from "./County";
-import { ProjectHasCountyFindManyArgs } from "../../projectHasCounty/base/ProjectHasCountyFindManyArgs";
-import { ProjectHasCounty } from "../../projectHasCounty/base/ProjectHasCounty";
-import { ProjectHasCountyWhereUniqueInput } from "../../projectHasCounty/base/ProjectHasCountyWhereUniqueInput";
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class CountyControllerBase {
@@ -52,6 +49,12 @@ export class CountyControllerBase {
       data: {
         ...data,
 
+        project: data.project
+          ? {
+              connect: data.project,
+            }
+          : undefined,
+
         region: data.region
           ? {
               connect: data.region,
@@ -63,6 +66,12 @@ export class CountyControllerBase {
         createdAt: true,
         id: true,
         name: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
 
         region: {
           select: {
@@ -95,6 +104,12 @@ export class CountyControllerBase {
         id: true,
         name: true,
 
+        project: {
+          select: {
+            id: true,
+          },
+        },
+
         region: {
           select: {
             id: true,
@@ -126,6 +141,12 @@ export class CountyControllerBase {
         createdAt: true,
         id: true,
         name: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
 
         region: {
           select: {
@@ -164,6 +185,12 @@ export class CountyControllerBase {
         data: {
           ...data,
 
+          project: data.project
+            ? {
+                connect: data.project,
+              }
+            : undefined,
+
           region: data.region
             ? {
                 connect: data.region,
@@ -175,6 +202,12 @@ export class CountyControllerBase {
           createdAt: true,
           id: true,
           name: true,
+
+          project: {
+            select: {
+              id: true,
+            },
+          },
 
           region: {
             select: {
@@ -216,6 +249,12 @@ export class CountyControllerBase {
           id: true,
           name: true,
 
+          project: {
+            select: {
+              id: true,
+            },
+          },
+
           region: {
             select: {
               id: true,
@@ -233,113 +272,5 @@ export class CountyControllerBase {
       }
       throw error;
     }
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @nestAccessControl.UseRoles({
-    resource: "ProjectHasCounty",
-    action: "read",
-    possession: "any",
-  })
-  @common.Get("/:id/projectHasCounties")
-  @ApiNestedQuery(ProjectHasCountyFindManyArgs)
-  async findManyProjectHasCounties(
-    @common.Req() request: Request,
-    @common.Param() params: CountyWhereUniqueInput
-  ): Promise<ProjectHasCounty[]> {
-    const query = plainToClass(ProjectHasCountyFindManyArgs, request.query);
-    const results = await this.service.findProjectHasCounties(params.id, {
-      ...query,
-      select: {
-        county: {
-          select: {
-            id: true,
-          },
-        },
-
-        createdAt: true,
-        id: true,
-
-        project: {
-          select: {
-            id: true,
-          },
-        },
-
-        updatedAt: true,
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "County",
-    action: "update",
-    possession: "any",
-  })
-  @common.Post("/:id/projectHasCounties")
-  async connectProjectHasCounties(
-    @common.Param() params: CountyWhereUniqueInput,
-    @common.Body() body: ProjectHasCountyWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasCounties: {
-        connect: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "County",
-    action: "update",
-    possession: "any",
-  })
-  @common.Patch("/:id/projectHasCounties")
-  async updateProjectHasCounties(
-    @common.Param() params: CountyWhereUniqueInput,
-    @common.Body() body: ProjectHasCountyWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasCounties: {
-        set: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "County",
-    action: "update",
-    possession: "any",
-  })
-  @common.Delete("/:id/projectHasCounties")
-  async disconnectProjectHasCounties(
-    @common.Param() params: CountyWhereUniqueInput,
-    @common.Body() body: ProjectHasCountyWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasCounties: {
-        disconnect: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
   }
 }

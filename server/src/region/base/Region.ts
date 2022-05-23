@@ -14,7 +14,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { County } from "../../county/base/County";
 import { ValidateNested, IsOptional, IsDate, IsString } from "class-validator";
 import { Type } from "class-transformer";
-import { ProjectHasRegion } from "../../projectHasRegion/base/ProjectHasRegion";
+import { Project } from "../../project/base/Project";
 @ObjectType()
 class Region {
   @ApiProperty({
@@ -44,12 +44,12 @@ class Region {
 
   @ApiProperty({
     required: false,
-    type: () => [ProjectHasRegion],
+    type: () => Project,
   })
   @ValidateNested()
-  @Type(() => ProjectHasRegion)
+  @Type(() => Project)
   @IsOptional()
-  projectHasRegions?: Array<ProjectHasRegion>;
+  project?: Project | null;
 
   @ApiProperty({
     required: true,

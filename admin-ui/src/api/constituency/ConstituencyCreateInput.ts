@@ -1,5 +1,5 @@
-import { ProjectHasConstituencyWhereUniqueInput } from "../projectHasConstituency/ProjectHasConstituencyWhereUniqueInput";
+import { ProjectWhereUniqueInput } from "../project/ProjectWhereUniqueInput";
 
 export type ConstituencyCreateInput = {
-  projectHasConstituencies?: ProjectHasConstituencyWhereUniqueInput | null;
+  project?: ProjectWhereUniqueInput | null;
 };

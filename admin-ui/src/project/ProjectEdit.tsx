@@ -6,15 +6,31 @@ import {
   ReferenceArrayInput,
   SelectArrayInput,
 } from "react-admin";
+import { ConstituencyTitle } from "../constituency/ConstituencyTitle";
+import { CountyTitle } from "../county/CountyTitle";
 import { MediumTitle } from "../medium/MediumTitle";
-import { ProjectHasConstituencyTitle } from "../projectHasConstituency/ProjectHasConstituencyTitle";
-import { ProjectHasCountyTitle } from "../projectHasCounty/ProjectHasCountyTitle";
-import { ProjectHasRegionTitle } from "../projectHasRegion/ProjectHasRegionTitle";
+import { RegionTitle } from "../region/RegionTitle";
 
 export const ProjectEdit = (props: EditProps): React.ReactElement => {
   return (
     <Edit {...props}>
       <SimpleForm>
+        <ReferenceArrayInput
+          source="constituencies"
+          reference="Constituency"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={ConstituencyTitle} />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
+          source="counties"
+          reference="County"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={CountyTitle} />
+        </ReferenceArrayInput>
         <ReferenceArrayInput
           source="mediums"
           reference="Medium"
@@ -24,28 +40,12 @@ export const ProjectEdit = (props: EditProps): React.ReactElement => {
           <SelectArrayInput optionText={MediumTitle} />
         </ReferenceArrayInput>
         <ReferenceArrayInput
-          source="projectHasConstituencies"
-          reference="ProjectHasConstituency"
+          source="regions"
+          reference="Region"
           parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
           format={(value: any) => value && value.map((v: any) => v.id)}
         >
-          <SelectArrayInput optionText={ProjectHasConstituencyTitle} />
-        </ReferenceArrayInput>
-        <ReferenceArrayInput
-          source="projectHasCounties"
-          reference="ProjectHasCounty"
-          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
-          format={(value: any) => value && value.map((v: any) => v.id)}
-        >
-          <SelectArrayInput optionText={ProjectHasCountyTitle} />
-        </ReferenceArrayInput>
-        <ReferenceArrayInput
-          source="projectHasRegions"
-          reference="ProjectHasRegion"
-          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
-          format={(value: any) => value && value.map((v: any) => v.id)}
-        >
-          <SelectArrayInput optionText={ProjectHasRegionTitle} />
+          <SelectArrayInput optionText={RegionTitle} />
         </ReferenceArrayInput>
       </SimpleForm>
     </Edit>

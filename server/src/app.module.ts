@@ -7,9 +7,6 @@ import { ProjectModule } from "./project/project.module";
 import { ConstituencyModule } from "./constituency/constituency.module";
 import { CountyModule } from "./county/county.module";
 import { RegionModule } from "./region/region.module";
-import { ProjectHasCountyModule } from "./projectHasCounty/projectHasCounty.module";
-import { ProjectHasConstituencyModule } from "./projectHasConstituency/projectHasConstituency.module";
-import { ProjectHasRegionModule } from "./projectHasRegion/projectHasRegion.module";
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
 import { HealthModule } from "./health/health.module";
@@ -28,9 +25,6 @@ import { GraphQLModule } from "@nestjs/graphql";
     ConstituencyModule,
     CountyModule,
     RegionModule,
-    ProjectHasCountyModule,
-    ProjectHasConstituencyModule,
-    ProjectHasRegionModule,
     ACLModule,
     AuthModule,
     HealthModule,

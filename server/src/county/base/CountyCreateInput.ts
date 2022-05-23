@@ -12,7 +12,7 @@ https://docs.amplication.com/docs/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsOptional, ValidateNested } from "class-validator";
-import { ProjectHasCountyCreateNestedManyWithoutCountiesInput } from "./ProjectHasCountyCreateNestedManyWithoutCountiesInput";
+import { ProjectWhereUniqueInput } from "../../project/base/ProjectWhereUniqueInput";
 import { Type } from "class-transformer";
 import { RegionWhereUniqueInput } from "../../region/base/RegionWhereUniqueInput";
 @InputType()
@@ -41,15 +41,15 @@ class CountyCreateInput {
 
   @ApiProperty({
     required: false,
-    type: () => ProjectHasCountyCreateNestedManyWithoutCountiesInput,
+    type: () => ProjectWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => ProjectHasCountyCreateNestedManyWithoutCountiesInput)
+  @Type(() => ProjectWhereUniqueInput)
   @IsOptional()
-  @Field(() => ProjectHasCountyCreateNestedManyWithoutCountiesInput, {
+  @Field(() => ProjectWhereUniqueInput, {
     nullable: true,
   })
-  projectHasCounties?: ProjectHasCountyCreateNestedManyWithoutCountiesInput;
+  project?: ProjectWhereUniqueInput | null;
 
   @ApiProperty({
     required: false,

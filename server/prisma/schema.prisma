@@ -27,67 +27,40 @@ model Medium {
 }
 
 model Project {
-  createdAt                DateTime                 @default(now())
-  id                       String                   @id @default(cuid())
-  mediums                  Medium[]
-  projectHasConstituencies ProjectHasConstituency[]
-  projectHasCounties       ProjectHasCounty[]
-  projectHasRegions        ProjectHasRegion[]
-  updatedAt                DateTime                 @updatedAt
+  constituencies Constituency[]
+  counties       County[]
+  createdAt      DateTime       @default(now())
+  id             String         @id @default(cuid())
+  mediums        Medium[]
+  regions        Region[]
+  updatedAt      DateTime       @updatedAt
 }
 
 model Constituency {
-  createdAt                  DateTime                @default(now())
-  id                         String                  @id @default(cuid())
-  projectHasConstituencies   ProjectHasConstituency? @relation(fields: [projectHasConstituenciesId], references: [id])
-  projectHasConstituenciesId String?
-  updatedAt                  DateTime                @updatedAt
-}
-
-model County {
-  code               String?
-  createdAt          DateTime           @default(now())
-  id                 String             @id @default(cuid())
-  name               String?
-  projectHasCounties ProjectHasCounty[]
-  region             Region?            @relation(fields: [regionId], references: [id])
-  regionId           String?
-  updatedAt          DateTime           @updatedAt
-}
-
-model Region {
-  counties          County[]
-  createdAt         DateTime           @default(now())
-  id                String             @id @default(cuid())
-  projectHasRegions ProjectHasRegion[]
-  updatedAt         DateTime           @updatedAt
-}
-
-model ProjectHasCounty {
-  county    County   @relation(fields: [countyId], references: [id])
-  countyId  String
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  project   Project  @relation(fields: [projectId], references: [id])
-  projectId String
-  updatedAt DateTime @updatedAt
-}
-
-model ProjectHasConstituency {
-  constituency Constituency
-  createdAt    DateTime     @default(now())
-  id           String       @id @default(cuid())
-  project      Project      @relation(fields: [projectId], references: [id])
-  projectId    String
-  updatedAt    DateTime     @updatedAt
-}
-
-model ProjectHasRegion {
   createdAt DateTime @default(now())
   id        String   @id @default(cuid())
   project   Project? @relation(fields: [projectId], references: [id])
   projectId String?
+  updatedAt DateTime @updatedAt
+}
+
+model County {
+  code      String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  name      String?
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
   region    Region?  @relation(fields: [regionId], references: [id])
   regionId  String?
+  updatedAt DateTime @updatedAt
+}
+
+model Region {
+  counties  County[]
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
   updatedAt DateTime @updatedAt
 }

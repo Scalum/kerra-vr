@@ -43,7 +43,7 @@ class ConstituencyOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  projectHasConstituenciesId?: SortOrder;
+  projectId?: SortOrder;
 
   @ApiProperty({
     required: false,

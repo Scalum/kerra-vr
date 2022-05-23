@@ -7,7 +7,7 @@ import {
   TextField,
   ReferenceField,
 } from "react-admin";
-import { PROJECTHASCONSTITUENCY_TITLE_FIELD } from "../projectHasConstituency/ProjectHasConstituencyTitle";
+import { PROJECT_TITLE_FIELD } from "../project/ProjectTitle";
 
 export const ConstituencyShow = (props: ShowProps): React.ReactElement => {
   return (
@@ -15,12 +15,8 @@ export const ConstituencyShow = (props: ShowProps): React.ReactElement => {
       <SimpleShowLayout>
         <DateField source="createdAt" label="Created At" />
         <TextField label="ID" source="id" />
-        <ReferenceField
-          label="project has constituencies"
-          source="projecthasconstituency.id"
-          reference="ProjectHasConstituency"
-        >
-          <TextField source={PROJECTHASCONSTITUENCY_TITLE_FIELD} />
+        <ReferenceField label="project" source="project.id" reference="Project">
+          <TextField source={PROJECT_TITLE_FIELD} />
         </ReferenceField>
         <DateField source="updatedAt" label="Updated At" />
       </SimpleShowLayout>

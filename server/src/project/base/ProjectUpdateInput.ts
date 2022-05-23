@@ -11,14 +11,38 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { MediumUpdateManyWithoutProjectsInput } from "./MediumUpdateManyWithoutProjectsInput";
+import { ConstituencyUpdateManyWithoutProjectsInput } from "./ConstituencyUpdateManyWithoutProjectsInput";
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { ProjectHasConstituencyUpdateManyWithoutProjectsInput } from "./ProjectHasConstituencyUpdateManyWithoutProjectsInput";
-import { ProjectHasCountyUpdateManyWithoutProjectsInput } from "./ProjectHasCountyUpdateManyWithoutProjectsInput";
-import { ProjectHasRegionUpdateManyWithoutProjectsInput } from "./ProjectHasRegionUpdateManyWithoutProjectsInput";
+import { CountyUpdateManyWithoutProjectsInput } from "./CountyUpdateManyWithoutProjectsInput";
+import { MediumUpdateManyWithoutProjectsInput } from "./MediumUpdateManyWithoutProjectsInput";
+import { RegionUpdateManyWithoutProjectsInput } from "./RegionUpdateManyWithoutProjectsInput";
 @InputType()
 class ProjectUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => ConstituencyUpdateManyWithoutProjectsInput,
+  })
+  @ValidateNested()
+  @Type(() => ConstituencyUpdateManyWithoutProjectsInput)
+  @IsOptional()
+  @Field(() => ConstituencyUpdateManyWithoutProjectsInput, {
+    nullable: true,
+  })
+  constituencies?: ConstituencyUpdateManyWithoutProjectsInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CountyUpdateManyWithoutProjectsInput,
+  })
+  @ValidateNested()
+  @Type(() => CountyUpdateManyWithoutProjectsInput)
+  @IsOptional()
+  @Field(() => CountyUpdateManyWithoutProjectsInput, {
+    nullable: true,
+  })
+  counties?: CountyUpdateManyWithoutProjectsInput;
+
   @ApiProperty({
     required: false,
     type: () => MediumUpdateManyWithoutProjectsInput,
@@ -33,38 +57,14 @@ class ProjectUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: () => ProjectHasConstituencyUpdateManyWithoutProjectsInput,
+    type: () => RegionUpdateManyWithoutProjectsInput,
   })
   @ValidateNested()
-  @Type(() => ProjectHasConstituencyUpdateManyWithoutProjectsInput)
+  @Type(() => RegionUpdateManyWithoutProjectsInput)
   @IsOptional()
-  @Field(() => ProjectHasConstituencyUpdateManyWithoutProjectsInput, {
+  @Field(() => RegionUpdateManyWithoutProjectsInput, {
     nullable: true,
   })
-  projectHasConstituencies?: ProjectHasConstituencyUpdateManyWithoutProjectsInput;
-
-  @ApiProperty({
-    required: false,
-    type: () => ProjectHasCountyUpdateManyWithoutProjectsInput,
-  })
-  @ValidateNested()
-  @Type(() => ProjectHasCountyUpdateManyWithoutProjectsInput)
-  @IsOptional()
-  @Field(() => ProjectHasCountyUpdateManyWithoutProjectsInput, {
-    nullable: true,
-  })
-  projectHasCounties?: ProjectHasCountyUpdateManyWithoutProjectsInput;
-
-  @ApiProperty({
-    required: false,
-    type: () => ProjectHasRegionUpdateManyWithoutProjectsInput,
-  })
-  @ValidateNested()
-  @Type(() => ProjectHasRegionUpdateManyWithoutProjectsInput)
-  @IsOptional()
-  @Field(() => ProjectHasRegionUpdateManyWithoutProjectsInput, {
-    nullable: true,
-  })
-  projectHasRegions?: ProjectHasRegionUpdateManyWithoutProjectsInput;
+  regions?: RegionUpdateManyWithoutProjectsInput;
 }
 export { ProjectUpdateInput };

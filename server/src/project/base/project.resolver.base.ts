@@ -25,14 +25,14 @@ import { DeleteProjectArgs } from "./DeleteProjectArgs";
 import { ProjectFindManyArgs } from "./ProjectFindManyArgs";
 import { ProjectFindUniqueArgs } from "./ProjectFindUniqueArgs";
 import { Project } from "./Project";
+import { ConstituencyFindManyArgs } from "../../constituency/base/ConstituencyFindManyArgs";
+import { Constituency } from "../../constituency/base/Constituency";
+import { CountyFindManyArgs } from "../../county/base/CountyFindManyArgs";
+import { County } from "../../county/base/County";
 import { MediumFindManyArgs } from "../../medium/base/MediumFindManyArgs";
 import { Medium } from "../../medium/base/Medium";
-import { ProjectHasConstituencyFindManyArgs } from "../../projectHasConstituency/base/ProjectHasConstituencyFindManyArgs";
-import { ProjectHasConstituency } from "../../projectHasConstituency/base/ProjectHasConstituency";
-import { ProjectHasCountyFindManyArgs } from "../../projectHasCounty/base/ProjectHasCountyFindManyArgs";
-import { ProjectHasCounty } from "../../projectHasCounty/base/ProjectHasCounty";
-import { ProjectHasRegionFindManyArgs } from "../../projectHasRegion/base/ProjectHasRegionFindManyArgs";
-import { ProjectHasRegion } from "../../projectHasRegion/base/ProjectHasRegion";
+import { RegionFindManyArgs } from "../../region/base/RegionFindManyArgs";
+import { Region } from "../../region/base/Region";
 import { ProjectService } from "../project.service";
 
 @graphql.Resolver(() => Project)
@@ -155,6 +155,46 @@ export class ProjectResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Constituency])
+  @nestAccessControl.UseRoles({
+    resource: "Constituency",
+    action: "read",
+    possession: "any",
+  })
+  async constituencies(
+    @graphql.Parent() parent: Project,
+    @graphql.Args() args: ConstituencyFindManyArgs
+  ): Promise<Constituency[]> {
+    const results = await this.service.findConstituencies(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [County])
+  @nestAccessControl.UseRoles({
+    resource: "County",
+    action: "read",
+    possession: "any",
+  })
+  async counties(
+    @graphql.Parent() parent: Project,
+    @graphql.Args() args: CountyFindManyArgs
+  ): Promise<County[]> {
+    const results = await this.service.findCounties(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.ResolveField(() => [Medium])
   @nestAccessControl.UseRoles({
     resource: "Medium",
@@ -175,60 +215,17 @@ export class ProjectResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [ProjectHasConstituency])
+  @graphql.ResolveField(() => [Region])
   @nestAccessControl.UseRoles({
-    resource: "ProjectHasConstituency",
+    resource: "Region",
     action: "read",
     possession: "any",
   })
-  async projectHasConstituencies(
+  async regions(
     @graphql.Parent() parent: Project,
-    @graphql.Args() args: ProjectHasConstituencyFindManyArgs
-  ): Promise<ProjectHasConstituency[]> {
-    const results = await this.service.findProjectHasConstituencies(
-      parent.id,
-      args
-    );
-
-    if (!results) {
-      return [];
-    }
-
-    return results;
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [ProjectHasCounty])
-  @nestAccessControl.UseRoles({
-    resource: "ProjectHasCounty",
-    action: "read",
-    possession: "any",
-  })
-  async projectHasCounties(
-    @graphql.Parent() parent: Project,
-    @graphql.Args() args: ProjectHasCountyFindManyArgs
-  ): Promise<ProjectHasCounty[]> {
-    const results = await this.service.findProjectHasCounties(parent.id, args);
-
-    if (!results) {
-      return [];
-    }
-
-    return results;
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [ProjectHasRegion])
-  @nestAccessControl.UseRoles({
-    resource: "ProjectHasRegion",
-    action: "read",
-    possession: "any",
-  })
-  async projectHasRegions(
-    @graphql.Parent() parent: Project,
-    @graphql.Args() args: ProjectHasRegionFindManyArgs
-  ): Promise<ProjectHasRegion[]> {
-    const results = await this.service.findProjectHasRegions(parent.id, args);
+    @graphql.Args() args: RegionFindManyArgs
+  ): Promise<Region[]> {
+    const results = await this.service.findRegions(parent.id, args);
 
     if (!results) {
       return [];

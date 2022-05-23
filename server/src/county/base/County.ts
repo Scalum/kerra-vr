@@ -13,7 +13,7 @@ import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsOptional, IsDate, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
-import { ProjectHasCounty } from "../../projectHasCounty/base/ProjectHasCounty";
+import { Project } from "../../project/base/Project";
 import { Region } from "../../region/base/Region";
 @ObjectType()
 class County {
@@ -57,12 +57,12 @@ class County {
 
   @ApiProperty({
     required: false,
-    type: () => [ProjectHasCounty],
+    type: () => Project,
   })
   @ValidateNested()
-  @Type(() => ProjectHasCounty)
+  @Type(() => Project)
   @IsOptional()
-  projectHasCounties?: Array<ProjectHasCounty>;
+  project?: Project | null;
 
   @ApiProperty({
     required: false,

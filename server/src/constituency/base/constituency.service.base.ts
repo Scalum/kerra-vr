@@ -10,7 +10,7 @@ https://docs.amplication.com/docs/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "nestjs-prisma";
-import { Prisma, Constituency, ProjectHasConstituency } from "@prisma/client";
+import { Prisma, Constituency, Project } from "@prisma/client";
 
 export class ConstituencyServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -47,13 +47,11 @@ export class ConstituencyServiceBase {
     return this.prisma.constituency.delete(args);
   }
 
-  async getProjectHasConstituencies(
-    parentId: string
-  ): Promise<ProjectHasConstituency | null> {
+  async getProject(parentId: string): Promise<Project | null> {
     return this.prisma.constituency
       .findUnique({
         where: { id: parentId },
       })
-      .projectHasConstituencies();
+      .project();
   }
 }

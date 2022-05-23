@@ -14,7 +14,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
-import { ProjectHasConstituencyWhereUniqueInput } from "../../projectHasConstituency/base/ProjectHasConstituencyWhereUniqueInput";
+import { ProjectWhereUniqueInput } from "../../project/base/ProjectWhereUniqueInput";
 @InputType()
 class ConstituencyWhereInput {
   @ApiProperty({
@@ -30,14 +30,14 @@ class ConstituencyWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => ProjectHasConstituencyWhereUniqueInput,
+    type: () => ProjectWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => ProjectHasConstituencyWhereUniqueInput)
+  @Type(() => ProjectWhereUniqueInput)
   @IsOptional()
-  @Field(() => ProjectHasConstituencyWhereUniqueInput, {
+  @Field(() => ProjectWhereUniqueInput, {
     nullable: true,
   })
-  projectHasConstituencies?: ProjectHasConstituencyWhereUniqueInput;
+  project?: ProjectWhereUniqueInput;
 }
 export { ConstituencyWhereInput };

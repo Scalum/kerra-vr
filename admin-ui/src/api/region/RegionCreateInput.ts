@@ -1,7 +1,7 @@
 import { CountyCreateNestedManyWithoutRegionsInput } from "./CountyCreateNestedManyWithoutRegionsInput";
-import { ProjectHasRegionCreateNestedManyWithoutRegionsInput } from "./ProjectHasRegionCreateNestedManyWithoutRegionsInput";
+import { ProjectWhereUniqueInput } from "../project/ProjectWhereUniqueInput";
 
 export type RegionCreateInput = {
   counties?: CountyCreateNestedManyWithoutRegionsInput;
-  projectHasRegions?: ProjectHasRegionCreateNestedManyWithoutRegionsInput;
+  project?: ProjectWhereUniqueInput | null;
 };

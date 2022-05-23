@@ -29,18 +29,6 @@ import { RegionList } from "./region/RegionList";
 import { RegionCreate } from "./region/RegionCreate";
 import { RegionEdit } from "./region/RegionEdit";
 import { RegionShow } from "./region/RegionShow";
-import { ProjectHasCountyList } from "./projectHasCounty/ProjectHasCountyList";
-import { ProjectHasCountyCreate } from "./projectHasCounty/ProjectHasCountyCreate";
-import { ProjectHasCountyEdit } from "./projectHasCounty/ProjectHasCountyEdit";
-import { ProjectHasCountyShow } from "./projectHasCounty/ProjectHasCountyShow";
-import { ProjectHasConstituencyList } from "./projectHasConstituency/ProjectHasConstituencyList";
-import { ProjectHasConstituencyCreate } from "./projectHasConstituency/ProjectHasConstituencyCreate";
-import { ProjectHasConstituencyEdit } from "./projectHasConstituency/ProjectHasConstituencyEdit";
-import { ProjectHasConstituencyShow } from "./projectHasConstituency/ProjectHasConstituencyShow";
-import { ProjectHasRegionList } from "./projectHasRegion/ProjectHasRegionList";
-import { ProjectHasRegionCreate } from "./projectHasRegion/ProjectHasRegionCreate";
-import { ProjectHasRegionEdit } from "./projectHasRegion/ProjectHasRegionEdit";
-import { ProjectHasRegionShow } from "./projectHasRegion/ProjectHasRegionShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -108,27 +96,6 @@ const App = (): React.ReactElement => {
           edit={RegionEdit}
           create={RegionCreate}
           show={RegionShow}
-        />
-        <Resource
-          name="ProjectHasCounty"
-          list={ProjectHasCountyList}
-          edit={ProjectHasCountyEdit}
-          create={ProjectHasCountyCreate}
-          show={ProjectHasCountyShow}
-        />
-        <Resource
-          name="ProjectHasConstituency"
-          list={ProjectHasConstituencyList}
-          edit={ProjectHasConstituencyEdit}
-          create={ProjectHasConstituencyCreate}
-          show={ProjectHasConstituencyShow}
-        />
-        <Resource
-          name="ProjectHasRegion"
-          list={ProjectHasRegionList}
-          edit={ProjectHasRegionEdit}
-          create={ProjectHasRegionCreate}
-          show={ProjectHasRegionShow}
         />
       </Admin>
     </div>
