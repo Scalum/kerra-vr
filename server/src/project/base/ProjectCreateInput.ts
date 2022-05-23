@@ -11,14 +11,38 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { MediumCreateNestedManyWithoutProjectsInput } from "./MediumCreateNestedManyWithoutProjectsInput";
+import { ConstituencyCreateNestedManyWithoutProjectsInput } from "./ConstituencyCreateNestedManyWithoutProjectsInput";
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { ProjectHasConstituencyCreateNestedManyWithoutProjectsInput } from "./ProjectHasConstituencyCreateNestedManyWithoutProjectsInput";
-import { ProjectHasCountyCreateNestedManyWithoutProjectsInput } from "./ProjectHasCountyCreateNestedManyWithoutProjectsInput";
-import { ProjectHasRegionCreateNestedManyWithoutProjectsInput } from "./ProjectHasRegionCreateNestedManyWithoutProjectsInput";
+import { CountyCreateNestedManyWithoutProjectsInput } from "./CountyCreateNestedManyWithoutProjectsInput";
+import { MediumCreateNestedManyWithoutProjectsInput } from "./MediumCreateNestedManyWithoutProjectsInput";
+import { RegionCreateNestedManyWithoutProjectsInput } from "./RegionCreateNestedManyWithoutProjectsInput";
 @InputType()
 class ProjectCreateInput {
+  @ApiProperty({
+    required: true,
+    type: () => ConstituencyCreateNestedManyWithoutProjectsInput,
+  })
+  @ValidateNested()
+  @Type(() => ConstituencyCreateNestedManyWithoutProjectsInput)
+  @IsOptional()
+  @Field(() => ConstituencyCreateNestedManyWithoutProjectsInput, {
+    nullable: true,
+  })
+  constituencies?: ConstituencyCreateNestedManyWithoutProjectsInput;
+
+  @ApiProperty({
+    required: true,
+    type: () => CountyCreateNestedManyWithoutProjectsInput,
+  })
+  @ValidateNested()
+  @Type(() => CountyCreateNestedManyWithoutProjectsInput)
+  @IsOptional()
+  @Field(() => CountyCreateNestedManyWithoutProjectsInput, {
+    nullable: true,
+  })
+  counties?: CountyCreateNestedManyWithoutProjectsInput;
+
   @ApiProperty({
     required: false,
     type: () => MediumCreateNestedManyWithoutProjectsInput,
@@ -32,39 +56,15 @@ class ProjectCreateInput {
   mediums?: MediumCreateNestedManyWithoutProjectsInput;
 
   @ApiProperty({
-    required: false,
-    type: () => ProjectHasConstituencyCreateNestedManyWithoutProjectsInput,
+    required: true,
+    type: () => RegionCreateNestedManyWithoutProjectsInput,
   })
   @ValidateNested()
-  @Type(() => ProjectHasConstituencyCreateNestedManyWithoutProjectsInput)
+  @Type(() => RegionCreateNestedManyWithoutProjectsInput)
   @IsOptional()
-  @Field(() => ProjectHasConstituencyCreateNestedManyWithoutProjectsInput, {
+  @Field(() => RegionCreateNestedManyWithoutProjectsInput, {
     nullable: true,
   })
-  projectHasConstituencies?: ProjectHasConstituencyCreateNestedManyWithoutProjectsInput;
-
-  @ApiProperty({
-    required: false,
-    type: () => ProjectHasCountyCreateNestedManyWithoutProjectsInput,
-  })
-  @ValidateNested()
-  @Type(() => ProjectHasCountyCreateNestedManyWithoutProjectsInput)
-  @IsOptional()
-  @Field(() => ProjectHasCountyCreateNestedManyWithoutProjectsInput, {
-    nullable: true,
-  })
-  projectHasCounties?: ProjectHasCountyCreateNestedManyWithoutProjectsInput;
-
-  @ApiProperty({
-    required: false,
-    type: () => ProjectHasRegionCreateNestedManyWithoutProjectsInput,
-  })
-  @ValidateNested()
-  @Type(() => ProjectHasRegionCreateNestedManyWithoutProjectsInput)
-  @IsOptional()
-  @Field(() => ProjectHasRegionCreateNestedManyWithoutProjectsInput, {
-    nullable: true,
-  })
-  projectHasRegions?: ProjectHasRegionCreateNestedManyWithoutProjectsInput;
+  regions?: RegionCreateNestedManyWithoutProjectsInput;
 }
 export { ProjectCreateInput };

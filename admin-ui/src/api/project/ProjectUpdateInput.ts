@@ -1,11 +1,11 @@
+import { ConstituencyUpdateManyWithoutProjectsInput } from "./ConstituencyUpdateManyWithoutProjectsInput";
+import { CountyUpdateManyWithoutProjectsInput } from "./CountyUpdateManyWithoutProjectsInput";
 import { MediumUpdateManyWithoutProjectsInput } from "./MediumUpdateManyWithoutProjectsInput";
-import { ProjectHasConstituencyUpdateManyWithoutProjectsInput } from "./ProjectHasConstituencyUpdateManyWithoutProjectsInput";
-import { ProjectHasCountyUpdateManyWithoutProjectsInput } from "./ProjectHasCountyUpdateManyWithoutProjectsInput";
-import { ProjectHasRegionUpdateManyWithoutProjectsInput } from "./ProjectHasRegionUpdateManyWithoutProjectsInput";
+import { RegionUpdateManyWithoutProjectsInput } from "./RegionUpdateManyWithoutProjectsInput";
 
 export type ProjectUpdateInput = {
+  constituencies?: ConstituencyUpdateManyWithoutProjectsInput;
+  counties?: CountyUpdateManyWithoutProjectsInput;
   mediums?: MediumUpdateManyWithoutProjectsInput;
-  projectHasConstituencies?: ProjectHasConstituencyUpdateManyWithoutProjectsInput;
-  projectHasCounties?: ProjectHasCountyUpdateManyWithoutProjectsInput;
-  projectHasRegions?: ProjectHasRegionUpdateManyWithoutProjectsInput;
+  regions?: RegionUpdateManyWithoutProjectsInput;
 };

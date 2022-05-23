@@ -1,7 +1,7 @@
 import { StringFilter } from "../../util/StringFilter";
-import { ProjectHasConstituencyWhereUniqueInput } from "../projectHasConstituency/ProjectHasConstituencyWhereUniqueInput";
+import { ProjectWhereUniqueInput } from "../project/ProjectWhereUniqueInput";
 
 export type ConstituencyWhereInput = {
   id?: StringFilter;
-  projectHasConstituencies?: ProjectHasConstituencyWhereUniqueInput;
+  project?: ProjectWhereUniqueInput;
 };

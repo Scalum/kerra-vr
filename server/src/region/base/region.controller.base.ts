@@ -30,9 +30,6 @@ import { Region } from "./Region";
 import { CountyFindManyArgs } from "../../county/base/CountyFindManyArgs";
 import { County } from "../../county/base/County";
 import { CountyWhereUniqueInput } from "../../county/base/CountyWhereUniqueInput";
-import { ProjectHasRegionFindManyArgs } from "../../projectHasRegion/base/ProjectHasRegionFindManyArgs";
-import { ProjectHasRegion } from "../../projectHasRegion/base/ProjectHasRegion";
-import { ProjectHasRegionWhereUniqueInput } from "../../projectHasRegion/base/ProjectHasRegionWhereUniqueInput";
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class RegionControllerBase {
@@ -52,10 +49,25 @@ export class RegionControllerBase {
   @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
   async create(@common.Body() data: RegionCreateInput): Promise<Region> {
     return await this.service.create({
-      data: data,
+      data: {
+        ...data,
+
+        project: data.project
+          ? {
+              connect: data.project,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
         id: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -78,6 +90,13 @@ export class RegionControllerBase {
       select: {
         createdAt: true,
         id: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -101,6 +120,13 @@ export class RegionControllerBase {
       select: {
         createdAt: true,
         id: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -129,10 +155,25 @@ export class RegionControllerBase {
     try {
       return await this.service.update({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          project: data.project
+            ? {
+                connect: data.project,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
           id: true,
+
+          project: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -164,6 +205,13 @@ export class RegionControllerBase {
         select: {
           createdAt: true,
           id: true,
+
+          project: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -197,6 +245,12 @@ export class RegionControllerBase {
         createdAt: true,
         id: true,
         name: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
 
         region: {
           select: {
@@ -271,114 +325,6 @@ export class RegionControllerBase {
   ): Promise<void> {
     const data = {
       counties: {
-        disconnect: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @nestAccessControl.UseRoles({
-    resource: "ProjectHasRegion",
-    action: "read",
-    possession: "any",
-  })
-  @common.Get("/:id/projectHasRegions")
-  @ApiNestedQuery(ProjectHasRegionFindManyArgs)
-  async findManyProjectHasRegions(
-    @common.Req() request: Request,
-    @common.Param() params: RegionWhereUniqueInput
-  ): Promise<ProjectHasRegion[]> {
-    const query = plainToClass(ProjectHasRegionFindManyArgs, request.query);
-    const results = await this.service.findProjectHasRegions(params.id, {
-      ...query,
-      select: {
-        createdAt: true,
-        id: true,
-
-        project: {
-          select: {
-            id: true,
-          },
-        },
-
-        region: {
-          select: {
-            id: true,
-          },
-        },
-
-        updatedAt: true,
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "Region",
-    action: "update",
-    possession: "any",
-  })
-  @common.Post("/:id/projectHasRegions")
-  async connectProjectHasRegions(
-    @common.Param() params: RegionWhereUniqueInput,
-    @common.Body() body: ProjectHasRegionWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasRegions: {
-        connect: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "Region",
-    action: "update",
-    possession: "any",
-  })
-  @common.Patch("/:id/projectHasRegions")
-  async updateProjectHasRegions(
-    @common.Param() params: RegionWhereUniqueInput,
-    @common.Body() body: ProjectHasRegionWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasRegions: {
-        set: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "Region",
-    action: "update",
-    possession: "any",
-  })
-  @common.Delete("/:id/projectHasRegions")
-  async disconnectProjectHasRegions(
-    @common.Param() params: RegionWhereUniqueInput,
-    @common.Body() body: ProjectHasRegionWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasRegions: {
         disconnect: body,
       },
     };

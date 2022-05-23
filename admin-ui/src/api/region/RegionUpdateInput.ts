@@ -1,7 +1,7 @@
 import { CountyUpdateManyWithoutRegionsInput } from "./CountyUpdateManyWithoutRegionsInput";
-import { ProjectHasRegionUpdateManyWithoutRegionsInput } from "./ProjectHasRegionUpdateManyWithoutRegionsInput";
+import { ProjectWhereUniqueInput } from "../project/ProjectWhereUniqueInput";
 
 export type RegionUpdateInput = {
   counties?: CountyUpdateManyWithoutRegionsInput;
-  projectHasRegions?: ProjectHasRegionUpdateManyWithoutRegionsInput;
+  project?: ProjectWhereUniqueInput | null;
 };

@@ -13,7 +13,7 @@ import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsString, ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { ProjectHasConstituency } from "../../projectHasConstituency/base/ProjectHasConstituency";
+import { Project } from "../../project/base/Project";
 @ObjectType()
 class Constituency {
   @ApiProperty({
@@ -34,12 +34,12 @@ class Constituency {
 
   @ApiProperty({
     required: false,
-    type: () => ProjectHasConstituency,
+    type: () => Project,
   })
   @ValidateNested()
-  @Type(() => ProjectHasConstituency)
+  @Type(() => Project)
   @IsOptional()
-  projectHasConstituencies?: ProjectHasConstituency | null;
+  project?: Project | null;
 
   @ApiProperty({
     required: true,

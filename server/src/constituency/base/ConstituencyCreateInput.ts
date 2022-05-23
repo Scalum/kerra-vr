@@ -11,21 +11,21 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { ProjectHasConstituencyWhereUniqueInput } from "../../projectHasConstituency/base/ProjectHasConstituencyWhereUniqueInput";
+import { ProjectWhereUniqueInput } from "../../project/base/ProjectWhereUniqueInput";
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
 @InputType()
 class ConstituencyCreateInput {
   @ApiProperty({
     required: false,
-    type: () => ProjectHasConstituencyWhereUniqueInput,
+    type: () => ProjectWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => ProjectHasConstituencyWhereUniqueInput)
+  @Type(() => ProjectWhereUniqueInput)
   @IsOptional()
-  @Field(() => ProjectHasConstituencyWhereUniqueInput, {
+  @Field(() => ProjectWhereUniqueInput, {
     nullable: true,
   })
-  projectHasConstituencies?: ProjectHasConstituencyWhereUniqueInput | null;
+  project?: ProjectWhereUniqueInput | null;
 }
 export { ConstituencyCreateInput };

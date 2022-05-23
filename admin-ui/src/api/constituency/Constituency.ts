@@ -1,8 +1,8 @@
-import { ProjectHasConstituency } from "../projectHasConstituency/ProjectHasConstituency";
+import { Project } from "../project/Project";
 
 export type Constituency = {
   createdAt: Date;
   id: string;
-  projectHasConstituencies?: ProjectHasConstituency | null;
+  project?: Project | null;
   updatedAt: Date;
 };

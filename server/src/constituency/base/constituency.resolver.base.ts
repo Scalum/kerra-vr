@@ -25,7 +25,7 @@ import { DeleteConstituencyArgs } from "./DeleteConstituencyArgs";
 import { ConstituencyFindManyArgs } from "./ConstituencyFindManyArgs";
 import { ConstituencyFindUniqueArgs } from "./ConstituencyFindUniqueArgs";
 import { Constituency } from "./Constituency";
-import { ProjectHasConstituency } from "../../projectHasConstituency/base/ProjectHasConstituency";
+import { Project } from "../../project/base/Project";
 import { ConstituencyService } from "../constituency.service";
 
 @graphql.Resolver(() => Constituency)
@@ -100,9 +100,9 @@ export class ConstituencyResolverBase {
       data: {
         ...args.data,
 
-        projectHasConstituencies: args.data.projectHasConstituencies
+        project: args.data.project
           ? {
-              connect: args.data.projectHasConstituencies,
+              connect: args.data.project,
             }
           : undefined,
       },
@@ -125,9 +125,9 @@ export class ConstituencyResolverBase {
         data: {
           ...args.data,
 
-          projectHasConstituencies: args.data.projectHasConstituencies
+          project: args.data.project
             ? {
-                connect: args.data.projectHasConstituencies,
+                connect: args.data.project,
               }
             : undefined,
         },
@@ -164,16 +164,16 @@ export class ConstituencyResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => ProjectHasConstituency, { nullable: true })
+  @graphql.ResolveField(() => Project, { nullable: true })
   @nestAccessControl.UseRoles({
-    resource: "ProjectHasConstituency",
+    resource: "Project",
     action: "read",
     possession: "any",
   })
-  async projectHasConstituencies(
+  async project(
     @graphql.Parent() parent: Constituency
-  ): Promise<ProjectHasConstituency | null> {
-    const result = await this.service.getProjectHasConstituencies(parent.id);
+  ): Promise<Project | null> {
+    const result = await this.service.getProject(parent.id);
 
     if (!result) {
       return null;

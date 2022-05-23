@@ -14,7 +14,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { CountyCreateNestedManyWithoutRegionsInput } from "./CountyCreateNestedManyWithoutRegionsInput";
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { ProjectHasRegionCreateNestedManyWithoutRegionsInput } from "./ProjectHasRegionCreateNestedManyWithoutRegionsInput";
+import { ProjectWhereUniqueInput } from "../../project/base/ProjectWhereUniqueInput";
 @InputType()
 class RegionCreateInput {
   @ApiProperty({
@@ -31,14 +31,14 @@ class RegionCreateInput {
 
   @ApiProperty({
     required: false,
-    type: () => ProjectHasRegionCreateNestedManyWithoutRegionsInput,
+    type: () => ProjectWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => ProjectHasRegionCreateNestedManyWithoutRegionsInput)
+  @Type(() => ProjectWhereUniqueInput)
   @IsOptional()
-  @Field(() => ProjectHasRegionCreateNestedManyWithoutRegionsInput, {
+  @Field(() => ProjectWhereUniqueInput, {
     nullable: true,
   })
-  projectHasRegions?: ProjectHasRegionCreateNestedManyWithoutRegionsInput;
+  project?: ProjectWhereUniqueInput | null;
 }
 export { RegionCreateInput };

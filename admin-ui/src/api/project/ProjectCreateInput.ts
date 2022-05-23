@@ -1,11 +1,11 @@
+import { ConstituencyCreateNestedManyWithoutProjectsInput } from "./ConstituencyCreateNestedManyWithoutProjectsInput";
+import { CountyCreateNestedManyWithoutProjectsInput } from "./CountyCreateNestedManyWithoutProjectsInput";
 import { MediumCreateNestedManyWithoutProjectsInput } from "./MediumCreateNestedManyWithoutProjectsInput";
-import { ProjectHasConstituencyCreateNestedManyWithoutProjectsInput } from "./ProjectHasConstituencyCreateNestedManyWithoutProjectsInput";
-import { ProjectHasCountyCreateNestedManyWithoutProjectsInput } from "./ProjectHasCountyCreateNestedManyWithoutProjectsInput";
-import { ProjectHasRegionCreateNestedManyWithoutProjectsInput } from "./ProjectHasRegionCreateNestedManyWithoutProjectsInput";
+import { RegionCreateNestedManyWithoutProjectsInput } from "./RegionCreateNestedManyWithoutProjectsInput";
 
 export type ProjectCreateInput = {
+  constituencies?: ConstituencyCreateNestedManyWithoutProjectsInput;
+  counties?: CountyCreateNestedManyWithoutProjectsInput;
   mediums?: MediumCreateNestedManyWithoutProjectsInput;
-  projectHasConstituencies?: ProjectHasConstituencyCreateNestedManyWithoutProjectsInput;
-  projectHasCounties?: ProjectHasCountyCreateNestedManyWithoutProjectsInput;
-  projectHasRegions?: ProjectHasRegionCreateNestedManyWithoutProjectsInput;
+  regions?: RegionCreateNestedManyWithoutProjectsInput;
 };

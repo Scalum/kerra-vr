@@ -5,6 +5,7 @@ export type CountyOrderByInput = {
   createdAt?: SortOrder;
   id?: SortOrder;
   name?: SortOrder;
+  projectId?: SortOrder;
   regionId?: SortOrder;
   updatedAt?: SortOrder;
 };

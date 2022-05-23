@@ -27,18 +27,18 @@ import { ProjectWhereUniqueInput } from "./ProjectWhereUniqueInput";
 import { ProjectFindManyArgs } from "./ProjectFindManyArgs";
 import { ProjectUpdateInput } from "./ProjectUpdateInput";
 import { Project } from "./Project";
+import { ConstituencyFindManyArgs } from "../../constituency/base/ConstituencyFindManyArgs";
+import { Constituency } from "../../constituency/base/Constituency";
+import { ConstituencyWhereUniqueInput } from "../../constituency/base/ConstituencyWhereUniqueInput";
+import { CountyFindManyArgs } from "../../county/base/CountyFindManyArgs";
+import { County } from "../../county/base/County";
+import { CountyWhereUniqueInput } from "../../county/base/CountyWhereUniqueInput";
 import { MediumFindManyArgs } from "../../medium/base/MediumFindManyArgs";
 import { Medium } from "../../medium/base/Medium";
 import { MediumWhereUniqueInput } from "../../medium/base/MediumWhereUniqueInput";
-import { ProjectHasConstituencyFindManyArgs } from "../../projectHasConstituency/base/ProjectHasConstituencyFindManyArgs";
-import { ProjectHasConstituency } from "../../projectHasConstituency/base/ProjectHasConstituency";
-import { ProjectHasConstituencyWhereUniqueInput } from "../../projectHasConstituency/base/ProjectHasConstituencyWhereUniqueInput";
-import { ProjectHasCountyFindManyArgs } from "../../projectHasCounty/base/ProjectHasCountyFindManyArgs";
-import { ProjectHasCounty } from "../../projectHasCounty/base/ProjectHasCounty";
-import { ProjectHasCountyWhereUniqueInput } from "../../projectHasCounty/base/ProjectHasCountyWhereUniqueInput";
-import { ProjectHasRegionFindManyArgs } from "../../projectHasRegion/base/ProjectHasRegionFindManyArgs";
-import { ProjectHasRegion } from "../../projectHasRegion/base/ProjectHasRegion";
-import { ProjectHasRegionWhereUniqueInput } from "../../projectHasRegion/base/ProjectHasRegionWhereUniqueInput";
+import { RegionFindManyArgs } from "../../region/base/RegionFindManyArgs";
+import { Region } from "../../region/base/Region";
+import { RegionWhereUniqueInput } from "../../region/base/RegionWhereUniqueInput";
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class ProjectControllerBase {
@@ -185,6 +185,218 @@ export class ProjectControllerBase {
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @nestAccessControl.UseRoles({
+    resource: "Constituency",
+    action: "read",
+    possession: "any",
+  })
+  @common.Get("/:id/constituencies")
+  @ApiNestedQuery(ConstituencyFindManyArgs)
+  async findManyConstituencies(
+    @common.Req() request: Request,
+    @common.Param() params: ProjectWhereUniqueInput
+  ): Promise<Constituency[]> {
+    const query = plainToClass(ConstituencyFindManyArgs, request.query);
+    const results = await this.service.findConstituencies(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        id: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
+
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Project",
+    action: "update",
+    possession: "any",
+  })
+  @common.Post("/:id/constituencies")
+  async connectConstituencies(
+    @common.Param() params: ProjectWhereUniqueInput,
+    @common.Body() body: ConstituencyWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      constituencies: {
+        connect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Project",
+    action: "update",
+    possession: "any",
+  })
+  @common.Patch("/:id/constituencies")
+  async updateConstituencies(
+    @common.Param() params: ProjectWhereUniqueInput,
+    @common.Body() body: ConstituencyWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      constituencies: {
+        set: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Project",
+    action: "update",
+    possession: "any",
+  })
+  @common.Delete("/:id/constituencies")
+  async disconnectConstituencies(
+    @common.Param() params: ProjectWhereUniqueInput,
+    @common.Body() body: ConstituencyWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      constituencies: {
+        disconnect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @nestAccessControl.UseRoles({
+    resource: "County",
+    action: "read",
+    possession: "any",
+  })
+  @common.Get("/:id/counties")
+  @ApiNestedQuery(CountyFindManyArgs)
+  async findManyCounties(
+    @common.Req() request: Request,
+    @common.Param() params: ProjectWhereUniqueInput
+  ): Promise<County[]> {
+    const query = plainToClass(CountyFindManyArgs, request.query);
+    const results = await this.service.findCounties(params.id, {
+      ...query,
+      select: {
+        code: true,
+        createdAt: true,
+        id: true,
+        name: true,
+
+        project: {
+          select: {
+            id: true,
+          },
+        },
+
+        region: {
+          select: {
+            id: true,
+          },
+        },
+
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Project",
+    action: "update",
+    possession: "any",
+  })
+  @common.Post("/:id/counties")
+  async connectCounties(
+    @common.Param() params: ProjectWhereUniqueInput,
+    @common.Body() body: CountyWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      counties: {
+        connect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Project",
+    action: "update",
+    possession: "any",
+  })
+  @common.Patch("/:id/counties")
+  async updateCounties(
+    @common.Param() params: ProjectWhereUniqueInput,
+    @common.Body() body: CountyWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      counties: {
+        set: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Project",
+    action: "update",
+    possession: "any",
+  })
+  @common.Delete("/:id/counties")
+  async disconnectCounties(
+    @common.Param() params: ProjectWhereUniqueInput,
+    @common.Body() body: CountyWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      counties: {
+        disconnect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @nestAccessControl.UseRoles({
     resource: "Medium",
     action: "read",
     possession: "any",
@@ -287,29 +499,20 @@ export class ProjectControllerBase {
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @nestAccessControl.UseRoles({
-    resource: "ProjectHasConstituency",
+    resource: "Region",
     action: "read",
     possession: "any",
   })
-  @common.Get("/:id/projectHasConstituencies")
-  @ApiNestedQuery(ProjectHasConstituencyFindManyArgs)
-  async findManyProjectHasConstituencies(
+  @common.Get("/:id/regions")
+  @ApiNestedQuery(RegionFindManyArgs)
+  async findManyRegions(
     @common.Req() request: Request,
     @common.Param() params: ProjectWhereUniqueInput
-  ): Promise<ProjectHasConstituency[]> {
-    const query = plainToClass(
-      ProjectHasConstituencyFindManyArgs,
-      request.query
-    );
-    const results = await this.service.findProjectHasConstituencies(params.id, {
+  ): Promise<Region[]> {
+    const query = plainToClass(RegionFindManyArgs, request.query);
+    const results = await this.service.findRegions(params.id, {
       ...query,
       select: {
-        constituency: {
-          select: {
-            id: true,
-          },
-        },
-
         createdAt: true,
         id: true,
 
@@ -335,13 +538,13 @@ export class ProjectControllerBase {
     action: "update",
     possession: "any",
   })
-  @common.Post("/:id/projectHasConstituencies")
-  async connectProjectHasConstituencies(
+  @common.Post("/:id/regions")
+  async connectRegions(
     @common.Param() params: ProjectWhereUniqueInput,
-    @common.Body() body: ProjectHasConstituencyWhereUniqueInput[]
+    @common.Body() body: RegionWhereUniqueInput[]
   ): Promise<void> {
     const data = {
-      projectHasConstituencies: {
+      regions: {
         connect: body,
       },
     };
@@ -357,13 +560,13 @@ export class ProjectControllerBase {
     action: "update",
     possession: "any",
   })
-  @common.Patch("/:id/projectHasConstituencies")
-  async updateProjectHasConstituencies(
+  @common.Patch("/:id/regions")
+  async updateRegions(
     @common.Param() params: ProjectWhereUniqueInput,
-    @common.Body() body: ProjectHasConstituencyWhereUniqueInput[]
+    @common.Body() body: RegionWhereUniqueInput[]
   ): Promise<void> {
     const data = {
-      projectHasConstituencies: {
+      regions: {
         set: body,
       },
     };
@@ -379,229 +582,13 @@ export class ProjectControllerBase {
     action: "update",
     possession: "any",
   })
-  @common.Delete("/:id/projectHasConstituencies")
-  async disconnectProjectHasConstituencies(
+  @common.Delete("/:id/regions")
+  async disconnectRegions(
     @common.Param() params: ProjectWhereUniqueInput,
-    @common.Body() body: ProjectHasConstituencyWhereUniqueInput[]
+    @common.Body() body: RegionWhereUniqueInput[]
   ): Promise<void> {
     const data = {
-      projectHasConstituencies: {
-        disconnect: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @nestAccessControl.UseRoles({
-    resource: "ProjectHasCounty",
-    action: "read",
-    possession: "any",
-  })
-  @common.Get("/:id/projectHasCounties")
-  @ApiNestedQuery(ProjectHasCountyFindManyArgs)
-  async findManyProjectHasCounties(
-    @common.Req() request: Request,
-    @common.Param() params: ProjectWhereUniqueInput
-  ): Promise<ProjectHasCounty[]> {
-    const query = plainToClass(ProjectHasCountyFindManyArgs, request.query);
-    const results = await this.service.findProjectHasCounties(params.id, {
-      ...query,
-      select: {
-        county: {
-          select: {
-            id: true,
-          },
-        },
-
-        createdAt: true,
-        id: true,
-
-        project: {
-          select: {
-            id: true,
-          },
-        },
-
-        updatedAt: true,
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "Project",
-    action: "update",
-    possession: "any",
-  })
-  @common.Post("/:id/projectHasCounties")
-  async connectProjectHasCounties(
-    @common.Param() params: ProjectWhereUniqueInput,
-    @common.Body() body: ProjectHasCountyWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasCounties: {
-        connect: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "Project",
-    action: "update",
-    possession: "any",
-  })
-  @common.Patch("/:id/projectHasCounties")
-  async updateProjectHasCounties(
-    @common.Param() params: ProjectWhereUniqueInput,
-    @common.Body() body: ProjectHasCountyWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasCounties: {
-        set: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "Project",
-    action: "update",
-    possession: "any",
-  })
-  @common.Delete("/:id/projectHasCounties")
-  async disconnectProjectHasCounties(
-    @common.Param() params: ProjectWhereUniqueInput,
-    @common.Body() body: ProjectHasCountyWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasCounties: {
-        disconnect: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @nestAccessControl.UseRoles({
-    resource: "ProjectHasRegion",
-    action: "read",
-    possession: "any",
-  })
-  @common.Get("/:id/projectHasRegions")
-  @ApiNestedQuery(ProjectHasRegionFindManyArgs)
-  async findManyProjectHasRegions(
-    @common.Req() request: Request,
-    @common.Param() params: ProjectWhereUniqueInput
-  ): Promise<ProjectHasRegion[]> {
-    const query = plainToClass(ProjectHasRegionFindManyArgs, request.query);
-    const results = await this.service.findProjectHasRegions(params.id, {
-      ...query,
-      select: {
-        createdAt: true,
-        id: true,
-
-        project: {
-          select: {
-            id: true,
-          },
-        },
-
-        region: {
-          select: {
-            id: true,
-          },
-        },
-
-        updatedAt: true,
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "Project",
-    action: "update",
-    possession: "any",
-  })
-  @common.Post("/:id/projectHasRegions")
-  async connectProjectHasRegions(
-    @common.Param() params: ProjectWhereUniqueInput,
-    @common.Body() body: ProjectHasRegionWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasRegions: {
-        connect: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "Project",
-    action: "update",
-    possession: "any",
-  })
-  @common.Patch("/:id/projectHasRegions")
-  async updateProjectHasRegions(
-    @common.Param() params: ProjectWhereUniqueInput,
-    @common.Body() body: ProjectHasRegionWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasRegions: {
-        set: body,
-      },
-    };
-    await this.service.update({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @nestAccessControl.UseRoles({
-    resource: "Project",
-    action: "update",
-    possession: "any",
-  })
-  @common.Delete("/:id/projectHasRegions")
-  async disconnectProjectHasRegions(
-    @common.Param() params: ProjectWhereUniqueInput,
-    @common.Body() body: ProjectHasRegionWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      projectHasRegions: {
+      regions: {
         disconnect: body,
       },
     };

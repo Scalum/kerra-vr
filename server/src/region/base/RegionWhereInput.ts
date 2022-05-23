@@ -15,7 +15,7 @@ import { CountyListRelationFilter } from "../../county/base/CountyListRelationFi
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
 import { StringFilter } from "../../util/StringFilter";
-import { ProjectHasRegionListRelationFilter } from "../../projectHasRegion/base/ProjectHasRegionListRelationFilter";
+import { ProjectWhereUniqueInput } from "../../project/base/ProjectWhereUniqueInput";
 @InputType()
 class RegionWhereInput {
   @ApiProperty({
@@ -43,14 +43,14 @@ class RegionWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => ProjectHasRegionListRelationFilter,
+    type: () => ProjectWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => ProjectHasRegionListRelationFilter)
+  @Type(() => ProjectWhereUniqueInput)
   @IsOptional()
-  @Field(() => ProjectHasRegionListRelationFilter, {
+  @Field(() => ProjectWhereUniqueInput, {
     nullable: true,
   })
-  projectHasRegions?: ProjectHasRegionListRelationFilter;
+  project?: ProjectWhereUniqueInput;
 }
 export { RegionWhereInput };

@@ -15,7 +15,7 @@ import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 import { StringFilter } from "../../util/StringFilter";
-import { ProjectHasCountyListRelationFilter } from "../../projectHasCounty/base/ProjectHasCountyListRelationFilter";
+import { ProjectWhereUniqueInput } from "../../project/base/ProjectWhereUniqueInput";
 import { RegionWhereUniqueInput } from "../../region/base/RegionWhereUniqueInput";
 @InputType()
 class CountyWhereInput {
@@ -54,15 +54,15 @@ class CountyWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => ProjectHasCountyListRelationFilter,
+    type: () => ProjectWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => ProjectHasCountyListRelationFilter)
+  @Type(() => ProjectWhereUniqueInput)
   @IsOptional()
-  @Field(() => ProjectHasCountyListRelationFilter, {
+  @Field(() => ProjectWhereUniqueInput, {
     nullable: true,
   })
-  projectHasCounties?: ProjectHasCountyListRelationFilter;
+  project?: ProjectWhereUniqueInput;
 
   @ApiProperty({
     required: false,

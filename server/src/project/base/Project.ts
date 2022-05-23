@@ -11,14 +11,32 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString, ValidateNested, IsOptional } from "class-validator";
+import { Constituency } from "../../constituency/base/Constituency";
+import { ValidateNested, IsOptional, IsDate, IsString } from "class-validator";
 import { Type } from "class-transformer";
+import { County } from "../../county/base/County";
 import { Medium } from "../../medium/base/Medium";
-import { ProjectHasConstituency } from "../../projectHasConstituency/base/ProjectHasConstituency";
-import { ProjectHasCounty } from "../../projectHasCounty/base/ProjectHasCounty";
-import { ProjectHasRegion } from "../../projectHasRegion/base/ProjectHasRegion";
+import { Region } from "../../region/base/Region";
 @ObjectType()
 class Project {
+  @ApiProperty({
+    required: true,
+    type: () => [Constituency],
+  })
+  @ValidateNested()
+  @Type(() => Constituency)
+  @IsOptional()
+  constituencies?: Array<Constituency>;
+
+  @ApiProperty({
+    required: true,
+    type: () => [County],
+  })
+  @ValidateNested()
+  @Type(() => County)
+  @IsOptional()
+  counties?: Array<County>;
+
   @ApiProperty({
     required: true,
   })
@@ -45,31 +63,13 @@ class Project {
   mediums?: Array<Medium>;
 
   @ApiProperty({
-    required: false,
-    type: () => [ProjectHasConstituency],
+    required: true,
+    type: () => [Region],
   })
   @ValidateNested()
-  @Type(() => ProjectHasConstituency)
+  @Type(() => Region)
   @IsOptional()
-  projectHasConstituencies?: Array<ProjectHasConstituency>;
-
-  @ApiProperty({
-    required: false,
-    type: () => [ProjectHasCounty],
-  })
-  @ValidateNested()
-  @Type(() => ProjectHasCounty)
-  @IsOptional()
-  projectHasCounties?: Array<ProjectHasCounty>;
-
-  @ApiProperty({
-    required: false,
-    type: () => [ProjectHasRegion],
-  })
-  @ValidateNested()
-  @Type(() => ProjectHasRegion)
-  @IsOptional()
-  projectHasRegions?: Array<ProjectHasRegion>;
+  regions?: Array<Region>;
 
   @ApiProperty({
     required: true,

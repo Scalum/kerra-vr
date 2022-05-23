@@ -1,13 +1,13 @@
+import { ConstituencyListRelationFilter } from "../constituency/ConstituencyListRelationFilter";
+import { CountyListRelationFilter } from "../county/CountyListRelationFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { MediumListRelationFilter } from "../medium/MediumListRelationFilter";
-import { ProjectHasConstituencyListRelationFilter } from "../projectHasConstituency/ProjectHasConstituencyListRelationFilter";
-import { ProjectHasCountyListRelationFilter } from "../projectHasCounty/ProjectHasCountyListRelationFilter";
-import { ProjectHasRegionListRelationFilter } from "../projectHasRegion/ProjectHasRegionListRelationFilter";
+import { RegionListRelationFilter } from "../region/RegionListRelationFilter";
 
 export type ProjectWhereInput = {
+  constituencies?: ConstituencyListRelationFilter;
+  counties?: CountyListRelationFilter;
   id?: StringFilter;
   mediums?: MediumListRelationFilter;
-  projectHasConstituencies?: ProjectHasConstituencyListRelationFilter;
-  projectHasCounties?: ProjectHasCountyListRelationFilter;
-  projectHasRegions?: ProjectHasRegionListRelationFilter;
+  regions?: RegionListRelationFilter;
 };

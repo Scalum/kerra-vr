@@ -12,8 +12,6 @@ import {
 } from "react-admin";
 
 import { PROJECT_TITLE_FIELD } from "./ProjectTitle";
-import { CONSTITUENCY_TITLE_FIELD } from "../constituency/ConstituencyTitle";
-import { COUNTY_TITLE_FIELD } from "../county/CountyTitle";
 import { REGION_TITLE_FIELD } from "../region/RegionTitle";
 
 export const ProjectShow = (props: ShowProps): React.ReactElement => {
@@ -23,6 +21,51 @@ export const ProjectShow = (props: ShowProps): React.ReactElement => {
         <DateField source="createdAt" label="Created At" />
         <TextField label="ID" source="id" />
         <DateField source="updatedAt" label="Updated At" />
+        <ReferenceManyField
+          reference="Constituency"
+          target="ProjectId"
+          label="constituencies"
+        >
+          <Datagrid rowClick="show">
+            <DateField source="createdAt" label="Created At" />
+            <TextField label="ID" source="id" />
+            <ReferenceField
+              label="project"
+              source="project.id"
+              reference="Project"
+            >
+              <TextField source={PROJECT_TITLE_FIELD} />
+            </ReferenceField>
+            <DateField source="updatedAt" label="Updated At" />
+          </Datagrid>
+        </ReferenceManyField>
+        <ReferenceManyField
+          reference="County"
+          target="ProjectId"
+          label="counties"
+        >
+          <Datagrid rowClick="show">
+            <TextField label="Code" source="code" />
+            <DateField source="createdAt" label="Created At" />
+            <TextField label="ID" source="id" />
+            <TextField label="Name" source="name" />
+            <ReferenceField
+              label="project"
+              source="project.id"
+              reference="Project"
+            >
+              <TextField source={PROJECT_TITLE_FIELD} />
+            </ReferenceField>
+            <ReferenceField
+              label="region"
+              source="region.id"
+              reference="Region"
+            >
+              <TextField source={REGION_TITLE_FIELD} />
+            </ReferenceField>
+            <DateField source="updatedAt" label="Updated At" />
+          </Datagrid>
+        </ReferenceManyField>
         <ReferenceManyField
           reference="Medium"
           target="ProjectId"
@@ -42,76 +85,19 @@ export const ProjectShow = (props: ShowProps): React.ReactElement => {
           </Datagrid>
         </ReferenceManyField>
         <ReferenceManyField
-          reference="ProjectHasConstituency"
+          reference="Region"
           target="ProjectId"
-          label="project has constituencies"
-        >
-          <Datagrid rowClick="show">
-            <ReferenceField
-              label="Constituency"
-              source="constituency.id"
-              reference="Constituency"
-            >
-              <TextField source={CONSTITUENCY_TITLE_FIELD} />
-            </ReferenceField>
-            <DateField source="createdAt" label="Created At" />
-            <TextField label="ID" source="id" />
-            <ReferenceField
-              label="Project"
-              source="project.id"
-              reference="Project"
-            >
-              <TextField source={PROJECT_TITLE_FIELD} />
-            </ReferenceField>
-            <DateField source="updatedAt" label="Updated At" />
-          </Datagrid>
-        </ReferenceManyField>
-        <ReferenceManyField
-          reference="ProjectHasCounty"
-          target="ProjectId"
-          label="project has counties"
-        >
-          <Datagrid rowClick="show">
-            <ReferenceField
-              label="County"
-              source="county.id"
-              reference="County"
-            >
-              <TextField source={COUNTY_TITLE_FIELD} />
-            </ReferenceField>
-            <DateField source="createdAt" label="Created At" />
-            <TextField label="ID" source="id" />
-            <ReferenceField
-              label="Project"
-              source="project.id"
-              reference="Project"
-            >
-              <TextField source={PROJECT_TITLE_FIELD} />
-            </ReferenceField>
-            <DateField source="updatedAt" label="Updated At" />
-          </Datagrid>
-        </ReferenceManyField>
-        <ReferenceManyField
-          reference="ProjectHasRegion"
-          target="ProjectId"
-          label="project has regions"
+          label="regions"
         >
           <Datagrid rowClick="show">
             <DateField source="createdAt" label="Created At" />
             <TextField label="ID" source="id" />
             <ReferenceField
-              label="Project"
+              label="project"
               source="project.id"
               reference="Project"
             >
               <TextField source={PROJECT_TITLE_FIELD} />
-            </ReferenceField>
-            <ReferenceField
-              label="Region"
-              source="region.id"
-              reference="Region"
-            >
-              <TextField source={REGION_TITLE_FIELD} />
             </ReferenceField>
             <DateField source="updatedAt" label="Updated At" />
           </Datagrid>

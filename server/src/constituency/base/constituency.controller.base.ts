@@ -51,9 +51,9 @@ export class ConstituencyControllerBase {
       data: {
         ...data,
 
-        projectHasConstituencies: data.projectHasConstituencies
+        project: data.project
           ? {
-              connect: data.projectHasConstituencies,
+              connect: data.project,
             }
           : undefined,
       },
@@ -61,7 +61,7 @@ export class ConstituencyControllerBase {
         createdAt: true,
         id: true,
 
-        projectHasConstituencies: {
+        project: {
           select: {
             id: true,
           },
@@ -90,7 +90,7 @@ export class ConstituencyControllerBase {
         createdAt: true,
         id: true,
 
-        projectHasConstituencies: {
+        project: {
           select: {
             id: true,
           },
@@ -120,7 +120,7 @@ export class ConstituencyControllerBase {
         createdAt: true,
         id: true,
 
-        projectHasConstituencies: {
+        project: {
           select: {
             id: true,
           },
@@ -157,9 +157,9 @@ export class ConstituencyControllerBase {
         data: {
           ...data,
 
-          projectHasConstituencies: data.projectHasConstituencies
+          project: data.project
             ? {
-                connect: data.projectHasConstituencies,
+                connect: data.project,
               }
             : undefined,
         },
@@ -167,7 +167,7 @@ export class ConstituencyControllerBase {
           createdAt: true,
           id: true,
 
-          projectHasConstituencies: {
+          project: {
             select: {
               id: true,
             },
@@ -205,7 +205,7 @@ export class ConstituencyControllerBase {
           createdAt: true,
           id: true,
 
-          projectHasConstituencies: {
+          project: {
             select: {
               id: true,
             },

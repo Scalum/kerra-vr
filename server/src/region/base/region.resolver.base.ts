@@ -27,8 +27,7 @@ import { RegionFindUniqueArgs } from "./RegionFindUniqueArgs";
 import { Region } from "./Region";
 import { CountyFindManyArgs } from "../../county/base/CountyFindManyArgs";
 import { County } from "../../county/base/County";
-import { ProjectHasRegionFindManyArgs } from "../../projectHasRegion/base/ProjectHasRegionFindManyArgs";
-import { ProjectHasRegion } from "../../projectHasRegion/base/ProjectHasRegion";
+import { Project } from "../../project/base/Project";
 import { RegionService } from "../region.service";
 
 @graphql.Resolver(() => Region)
@@ -96,7 +95,15 @@ export class RegionResolverBase {
   async createRegion(@graphql.Args() args: CreateRegionArgs): Promise<Region> {
     return await this.service.create({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        project: args.data.project
+          ? {
+              connect: args.data.project,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -113,7 +120,15 @@ export class RegionResolverBase {
     try {
       return await this.service.update({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          project: args.data.project
+            ? {
+                connect: args.data.project,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -167,22 +182,18 @@ export class RegionResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [ProjectHasRegion])
+  @graphql.ResolveField(() => Project, { nullable: true })
   @nestAccessControl.UseRoles({
-    resource: "ProjectHasRegion",
+    resource: "Project",
     action: "read",
     possession: "any",
   })
-  async projectHasRegions(
-    @graphql.Parent() parent: Region,
-    @graphql.Args() args: ProjectHasRegionFindManyArgs
-  ): Promise<ProjectHasRegion[]> {
-    const results = await this.service.findProjectHasRegions(parent.id, args);
+  async project(@graphql.Parent() parent: Region): Promise<Project | null> {
+    const result = await this.service.getProject(parent.id);
 
-    if (!results) {
-      return [];
+    if (!result) {
+      return null;
     }
-
-    return results;
+    return result;
   }
 }

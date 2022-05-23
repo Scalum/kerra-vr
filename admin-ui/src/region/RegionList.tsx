@@ -1,6 +1,14 @@
 import * as React from "react";
-import { List, Datagrid, ListProps, DateField, TextField } from "react-admin";
+import {
+  List,
+  Datagrid,
+  ListProps,
+  DateField,
+  TextField,
+  ReferenceField,
+} from "react-admin";
 import Pagination from "../Components/Pagination";
+import { PROJECT_TITLE_FIELD } from "../project/ProjectTitle";
 
 export const RegionList = (props: ListProps): React.ReactElement => {
   return (
@@ -14,6 +22,9 @@ export const RegionList = (props: ListProps): React.ReactElement => {
       <Datagrid rowClick="show">
         <DateField source="createdAt" label="Created At" />
         <TextField label="ID" source="id" />
+        <ReferenceField label="project" source="project.id" reference="Project">
+          <TextField source={PROJECT_TITLE_FIELD} />
+        </ReferenceField>
         <DateField source="updatedAt" label="Updated At" />
       </Datagrid>
     </List>

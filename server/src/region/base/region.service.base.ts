@@ -10,7 +10,7 @@ https://docs.amplication.com/docs/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "nestjs-prisma";
-import { Prisma, Region, County, ProjectHasRegion } from "@prisma/client";
+import { Prisma, Region, County, Project } from "@prisma/client";
 
 export class RegionServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -58,14 +58,11 @@ export class RegionServiceBase {
       .counties(args);
   }
 
-  async findProjectHasRegions(
-    parentId: string,
-    args: Prisma.ProjectHasRegionFindManyArgs
-  ): Promise<ProjectHasRegion[]> {
+  async getProject(parentId: string): Promise<Project | null> {
     return this.prisma.region
       .findUnique({
         where: { id: parentId },
       })
-      .projectHasRegions(args);
+      .project();
   }
 }

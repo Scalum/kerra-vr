@@ -10,14 +10,13 @@ https://docs.amplication.com/docs/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "nestjs-prisma";
-
 import {
   Prisma,
   Project,
+  Constituency,
+  County,
   Medium,
-  ProjectHasConstituency,
-  ProjectHasCounty,
-  ProjectHasRegion,
+  Region,
 } from "@prisma/client";
 
 export class ProjectServiceBase {
@@ -55,6 +54,28 @@ export class ProjectServiceBase {
     return this.prisma.project.delete(args);
   }
 
+  async findConstituencies(
+    parentId: string,
+    args: Prisma.ConstituencyFindManyArgs
+  ): Promise<Constituency[]> {
+    return this.prisma.project
+      .findUnique({
+        where: { id: parentId },
+      })
+      .constituencies(args);
+  }
+
+  async findCounties(
+    parentId: string,
+    args: Prisma.CountyFindManyArgs
+  ): Promise<County[]> {
+    return this.prisma.project
+      .findUnique({
+        where: { id: parentId },
+      })
+      .counties(args);
+  }
+
   async findMediums(
     parentId: string,
     args: Prisma.MediumFindManyArgs
@@ -66,36 +87,14 @@ export class ProjectServiceBase {
       .mediums(args);
   }
 
-  async findProjectHasConstituencies(
+  async findRegions(
     parentId: string,
-    args: Prisma.ProjectHasConstituencyFindManyArgs
-  ): Promise<ProjectHasConstituency[]> {
+    args: Prisma.RegionFindManyArgs
+  ): Promise<Region[]> {
     return this.prisma.project
       .findUnique({
         where: { id: parentId },
       })
-      .projectHasConstituencies(args);
-  }
-
-  async findProjectHasCounties(
-    parentId: string,
-    args: Prisma.ProjectHasCountyFindManyArgs
-  ): Promise<ProjectHasCounty[]> {
-    return this.prisma.project
-      .findUnique({
-        where: { id: parentId },
-      })
-      .projectHasCounties(args);
-  }
-
-  async findProjectHasRegions(
-    parentId: string,
-    args: Prisma.ProjectHasRegionFindManyArgs
-  ): Promise<ProjectHasRegion[]> {
-    return this.prisma.project
-      .findUnique({
-        where: { id: parentId },
-      })
-      .projectHasRegions(args);
+      .regions(args);
   }
 }

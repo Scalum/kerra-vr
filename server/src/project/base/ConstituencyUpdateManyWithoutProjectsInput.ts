@@ -10,49 +10,35 @@ https://docs.amplication.com/docs/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { InputType, Field } from "@nestjs/graphql";
+import { ConstituencyWhereUniqueInput } from "../../constituency/base/ConstituencyWhereUniqueInput";
 import { ApiProperty } from "@nestjs/swagger";
-import { SortOrder } from "../../util/SortOrder";
-
-@InputType({
-  isAbstract: true,
-  description: undefined,
-})
-class RegionOrderByInput {
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @Field(() => SortOrder, {
+@InputType()
+class ConstituencyUpdateManyWithoutProjectsInput {
+  @Field(() => [ConstituencyWhereUniqueInput], {
     nullable: true,
   })
-  createdAt?: SortOrder;
-
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => [ConstituencyWhereUniqueInput],
   })
-  @Field(() => SortOrder, {
+  connect?: Array<ConstituencyWhereUniqueInput>;
+
+  @Field(() => [ConstituencyWhereUniqueInput], {
     nullable: true,
   })
-  id?: SortOrder;
-
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => [ConstituencyWhereUniqueInput],
   })
-  @Field(() => SortOrder, {
+  disconnect?: Array<ConstituencyWhereUniqueInput>;
+
+  @Field(() => [ConstituencyWhereUniqueInput], {
     nullable: true,
   })
-  projectId?: SortOrder;
-
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => [ConstituencyWhereUniqueInput],
   })
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
-  updatedAt?: SortOrder;
+  set?: Array<ConstituencyWhereUniqueInput>;
 }
-
-export { RegionOrderByInput };
+export { ConstituencyUpdateManyWithoutProjectsInput };

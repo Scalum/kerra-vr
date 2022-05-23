@@ -6,13 +6,13 @@ import {
   ShowProps,
   DateField,
   TextField,
+  ReferenceField,
   ReferenceManyField,
   Datagrid,
-  ReferenceField,
 } from "react-admin";
 
-import { REGION_TITLE_FIELD } from "./RegionTitle";
 import { PROJECT_TITLE_FIELD } from "../project/ProjectTitle";
+import { REGION_TITLE_FIELD } from "./RegionTitle";
 
 export const RegionShow = (props: ShowProps): React.ReactElement => {
   return (
@@ -20,6 +20,9 @@ export const RegionShow = (props: ShowProps): React.ReactElement => {
       <SimpleShowLayout>
         <DateField source="createdAt" label="Created At" />
         <TextField label="ID" source="id" />
+        <ReferenceField label="project" source="project.id" reference="Project">
+          <TextField source={PROJECT_TITLE_FIELD} />
+        </ReferenceField>
         <DateField source="updatedAt" label="Updated At" />
         <ReferenceManyField
           reference="County"
@@ -32,32 +35,14 @@ export const RegionShow = (props: ShowProps): React.ReactElement => {
             <TextField label="ID" source="id" />
             <TextField label="Name" source="name" />
             <ReferenceField
-              label="region"
-              source="region.id"
-              reference="Region"
-            >
-              <TextField source={REGION_TITLE_FIELD} />
-            </ReferenceField>
-            <DateField source="updatedAt" label="Updated At" />
-          </Datagrid>
-        </ReferenceManyField>
-        <ReferenceManyField
-          reference="ProjectHasRegion"
-          target="RegionId"
-          label="project has regions"
-        >
-          <Datagrid rowClick="show">
-            <DateField source="createdAt" label="Created At" />
-            <TextField label="ID" source="id" />
-            <ReferenceField
-              label="Project"
+              label="project"
               source="project.id"
               reference="Project"
             >
               <TextField source={PROJECT_TITLE_FIELD} />
             </ReferenceField>
             <ReferenceField
-              label="Region"
+              label="region"
               source="region.id"
               reference="Region"
             >

@@ -25,8 +25,7 @@ import { DeleteCountyArgs } from "./DeleteCountyArgs";
 import { CountyFindManyArgs } from "./CountyFindManyArgs";
 import { CountyFindUniqueArgs } from "./CountyFindUniqueArgs";
 import { County } from "./County";
-import { ProjectHasCountyFindManyArgs } from "../../projectHasCounty/base/ProjectHasCountyFindManyArgs";
-import { ProjectHasCounty } from "../../projectHasCounty/base/ProjectHasCounty";
+import { Project } from "../../project/base/Project";
 import { Region } from "../../region/base/Region";
 import { CountyService } from "../county.service";
 
@@ -98,6 +97,12 @@ export class CountyResolverBase {
       data: {
         ...args.data,
 
+        project: args.data.project
+          ? {
+              connect: args.data.project,
+            }
+          : undefined,
+
         region: args.data.region
           ? {
               connect: args.data.region,
@@ -122,6 +127,12 @@ export class CountyResolverBase {
         ...args,
         data: {
           ...args.data,
+
+          project: args.data.project
+            ? {
+                connect: args.data.project,
+              }
+            : undefined,
 
           region: args.data.region
             ? {
@@ -162,23 +173,19 @@ export class CountyResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [ProjectHasCounty])
+  @graphql.ResolveField(() => Project, { nullable: true })
   @nestAccessControl.UseRoles({
-    resource: "ProjectHasCounty",
+    resource: "Project",
     action: "read",
     possession: "any",
   })
-  async projectHasCounties(
-    @graphql.Parent() parent: County,
-    @graphql.Args() args: ProjectHasCountyFindManyArgs
-  ): Promise<ProjectHasCounty[]> {
-    const results = await this.service.findProjectHasCounties(parent.id, args);
+  async project(@graphql.Parent() parent: County): Promise<Project | null> {
+    const result = await this.service.getProject(parent.id);
 
-    if (!results) {
-      return [];
+    if (!result) {
+      return null;
     }
-
-    return results;
+    return result;
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
